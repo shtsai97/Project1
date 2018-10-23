@@ -10,7 +10,33 @@ def getData(file):
 #Ouput: return a list of dictionary objects where
 #the keys are from the first row in the data. and the values are each of the other rows
 
-	pass
+
+	f = open(file)
+	lines = f.readlines()
+	f.close()
+
+	lst = []
+	for line in lines:
+		values = line.strip(",")
+
+
+		first = values[0]
+		last = values[1]
+		email = values[2]
+		Class = values[3]
+		dob = values[4]
+
+		dict = {}
+		dict["First"] = first
+		dict["Last"] = last
+		dict["Email"] = email
+		dict["Class"] = Class
+		dict["DOB"] = dob
+
+		lst.append(dict)
+
+	return lst
+
 
 def mySort(data,col):
 # Sort based on key/column
