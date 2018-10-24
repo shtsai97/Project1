@@ -1,6 +1,6 @@
 import os
 import filecmp
-from dateutil.relativedelta import *
+#from dateutil.relativedelta import *
 from datetime import date
 
 
@@ -10,32 +10,24 @@ def getData(file):
 #Ouput: return a list of dictionary objects where
 #the keys are from the first row in the data. and the values are each of the other rows
 
+    f = open(file)
+    lines = f.readlines()
+    f.close()
 
-	f = open(file)
-	lines = f.readlines()
-	f.close()
+    lst = []
 
-	lst = []
-	for line in lines:
-		values = line.strip(",")
+    for n in range(1, len(lines)):
+        line = lines[n]
+        values = line.split(",")
+        dict = {}
+        dict["First"] = values[0]
+        dict["Last"] = values[1]
+        dict["Email"] = values[2]
+        dict["Class"] = values[3]
+        dict["DOB"] = values[4]
 
-
-		first = values[0]
-		last = values[1]
-		email = values[2]
-		Class = values[3]
-		dob = values[4]
-
-		dict = {}
-		dict["First"] = first
-		dict["Last"] = last
-		dict["Email"] = email
-		dict["Class"] = Class
-		dict["DOB"] = dob
-
-		lst.append(dict)
-
-	return lst
+        lst.append(dict)
+    return lst
 
 
 def mySort(data,col):
@@ -43,7 +35,9 @@ def mySort(data,col):
 #Input: list of dictionaries and col (key) to sort on
 #Output: Return the first item in the sorted list as a string of just: firstName lastName
 
-	pass
+	newData = sorted(data, key=lambda filter: filter[col])
+	firstEntry = newData[0]
+	return firstEntry["First"] + " " + firstEntry["Last"]
 
 
 def classSizes(data):
@@ -53,7 +47,18 @@ def classSizes(data):
 # descending order
 # [('Senior', 26), ('Junior', 25), ('Freshman', 21), ('Sophomore', 18)]
 
-	pass
+	Class = {}
+	for i in data:
+		currClass = i['Class']
+
+		if currClass in Class:
+			Class[currClass] = Class.get(currClass) + 1
+		else:
+			Class[currClass] = 1
+
+	newData = sorted(Class.items(), key=lambda c: c[1], reverse = True)
+
+	return newData
 
 
 def findMonth(a):
@@ -61,7 +66,22 @@ def findMonth(a):
 # Input: list of dictionaries
 # Output: Return the month (1-12) that had the most births in the data
 
-	pass
+	monthDict = {}
+
+	for i in a:
+		dob = i["DOB"].split("/")
+		currMonth = dob[0]
+
+		if currMonth in monthDict:
+			monthDict[currMonth] = monthDict.get(currMonth) + 1
+		else:
+			monthDict[currMonth] = 1
+
+	newData = sorted(monthDict.items(), key=lambda n:n[1], reverse = True)
+	most = newData[0]
+
+	return int(most[0])
+
 
 def mySortPrint(a,col,fileName):
 #Similar to mySort, but instead of returning single
@@ -70,7 +90,13 @@ def mySortPrint(a,col,fileName):
 #Input: list of dictionaries, col (key) to sort by and output file name
 #Output: No return value, but the file is written
 
-	pass
+	file = open(fileName)
+
+	newData = sorted(a, key=lambda filter: filter[col])
+	for i in newData:
+		output.write(i['First'] + ", " + i['Last'] + ", " + i['Email'] + "\n")
+
+	file.close()
 
 def findAge(a):
 # def findAge(a):
