@@ -94,7 +94,7 @@ def mySortPrint(a,col,fileName):
 
 	newData = sorted(a, key=lambda filter: filter[col])
 	for i in newData:
-		output.write(i['First'] + ", " + i['Last'] + ", " + i['Email'] + "\n")
+		file.write(i['First'] + "," + i['Last'] + "," + i['Email'] + "\n")
 
 	file.close()
 
@@ -105,7 +105,12 @@ def findAge(a):
 # integer.  You will need to work with the DOB and the current date to find the current
 # age in years.
 
-	pass
+	sum = 0
+	for i in a:
+		age = 2018 - int(i['DOB'].split('/')[2])
+		sum += age
+
+	return round(sum/len(a))
 
 
 ################################################################
