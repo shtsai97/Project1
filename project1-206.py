@@ -10,7 +10,7 @@ def getData(file):
 #Ouput: return a list of dictionary objects where
 #the keys are from the first row in the data. and the values are each of the other rows
 
-    f = open(file)
+    f = open(file, 'w')
     lines = f.readlines()
     f.close()
 
@@ -90,7 +90,7 @@ def mySortPrint(a,col,fileName):
 #Input: list of dictionaries, col (key) to sort by and output file name
 #Output: No return value, but the file is written
 
-	file = open(fileName)
+	file = open(fileName, 'w')
 
 	newData = sorted(a, key=lambda filter: filter[col])
 	for i in newData:
